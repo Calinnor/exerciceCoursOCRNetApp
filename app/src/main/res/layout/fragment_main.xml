@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="2"
+        android:layout_weight="20"
         android:background="#4B77BE"
         android:gravity="center">
 
@@ -29,18 +29,67 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#E4F1FE"
+        android:orientation="vertical"
         android:gravity="center"
         android:layout_weight="1">
 
         <Button
-            android:id="@+id/fragment_main_button"
+            android:id="@+id/fragment_main_button_retrofit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/button_corner"
             android:textColor="#FFF"
             android:textStyle="bold"
-            android:padding="15dip"
-            android:text="GET DATAS FROM GITHUB"/>
+            android:text="GET DATAS FROM GITHUB VIA RETROFIT"/>
+
+        <Button
+            android:id="@+id/fragment_main_button_perso_httpRequest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/button_corner"
+            android:text="GET DATAS FROM GITHUB VIA PERSO HTTP REQUEST"
+            android:textColor="#FFF"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#E4F1FE"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_weight="1">
+
+        <Button
+            android:id="@+id/fragment_main_button_display_RxJava_string"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_corner"
+            android:textColor="#FFF"
+            android:textStyle="bold"
+            android:text="Display RxJava string without map operator"/>
+
+        <Button
+            android:id="@+id/fragment_main_button_display_RxJava_string_with_map"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/button_corner"
+            android:textColor="#FFF"
+            android:textStyle="bold"
+            android:text="Display RxJava string with map operator"/>
+
+        <Button
+            android:id="@+id/fragment_main_button_display_RxJava_string_with_flatmap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@drawable/button_corner"
+            android:text="Display RxJava string with flatmap operator"
+            android:textColor="#FFF"
+            android:textStyle="bold" />
 
     </LinearLayout>
 
