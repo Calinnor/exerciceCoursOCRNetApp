@@ -21,8 +21,10 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Observable;
+import io.reactivex.ObservableSource;
 import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 
 /**
@@ -45,6 +47,12 @@ public class MainFragment extends Fragment implements NetworkAsyncTask.Listeners
         return view;
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        this.observableDesinscriptionWhenDestroy();
+    }
+
     // -----------------
     // ACTIONS
     // -----------------
@@ -61,10 +69,10 @@ public class MainFragment extends Fragment implements NetworkAsyncTask.Listeners
     public void displayRxJavaBase(){this.streamToShowStringEmitInObservable_GetSimpleStringObserved();}
 
     @OnClick(R.id.fragment_main_button_display_RxJava_string_with_map)
-    public void displayRxJavaWithMap(){}
+    public void displayRxJavaWithMap(){this.streamToShowStringEmitInObservable_GetSimpleStringObserved_withMapModificateur();}
 
     @OnClick(R.id.fragment_main_button_display_RxJava_string_with_flatmap)
-    public void displayRxJavaWithFlatMap(){}
+    public void displayRxJavaWithFlatMap(){this.streamWithFlatMap();}
 
 
 
@@ -171,6 +179,55 @@ public class MainFragment extends Fragment implements NetworkAsyncTask.Listeners
     //5 desinscription creation
     private void observableDesinscriptionWhenDestroy(){
         if(this.disposable != null && this.disposable.isDisposed()) this.disposable.dispose();
+    }
+
+    private void streamToShowStringEmitInObservable_GetSimpleStringObserved_withMapModificateur(){
+        this.disposable = this.getSimpleStringObserved()
+                //.map doit avoir un parametre (une fonction a appliquer au mapping)
+                .map(getFunctionInUppercase())
+                .map(getFunctionAddingString())
+                .subscribeWith(getSuscriber());
+    }
+
+    private Function<String, String> getFunctionInUppercase() {
+        return new Function<String, String>() {
+            //override automatiquement implementé lors de l'ecriture du return new
+            @Override
+            public String apply(@NonNull String s) throws Exception {
+                return s.toUpperCase();
+            }
+        };
+    }
+
+    private Function<String,String> getFunctionAddingString(){
+        return new Function<String, String>() {
+            @Override
+            public String apply(@NonNull String s) throws Exception {
+                //on retourne une string modifiée
+                return s+" Deux fois plus cool avec un second .map";
+            }
+        };
+    }
+
+    private void streamWithFlatMap(){
+        this.disposable = this.getSimpleStringObserved()
+                .map(getFunctionAddingString())
+                .map(getFunctionInUppercase())
+                .flatMap(getNewObservable())
+                .subscribeWith(getSuscriber());
+    }
+
+    //todo ask to valdese what is the difference betwen map and flatmap...???
+
+    private Function<String, Observable<String>> getNewObservable() {
+        return new Function<String, Observable<String>>() {
+            //override avec un observable
+            @Override
+            public Observable<String> apply(@NonNull String s) throws Exception {
+                //on return un nouvel observable
+                return Observable.just(s+" Et on ajoute un nouvel observable");
+            }
+        };
     }
 
 }
